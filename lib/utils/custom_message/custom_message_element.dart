@@ -42,6 +42,21 @@ class CustomMessageElem extends StatefulWidget {
     this.textPadding,
   }) : super(key: key);
 
+  static bool? isC2CCallOutgoing(V2TimMessage message) {
+    try {
+      final callingMessageDataProvider = CallingMessageDataProvider(message);
+      if (!callingMessageDataProvider.excludeFromHistory &&
+          callingMessageDataProvider.isCallingSignal &&
+          callingMessageDataProvider.participantType == CallParticipantType.c2c) {
+        return callingMessageDataProvider.direction == CallMessageDirection.outcoming;
+      }
+    } catch (e) {
+      return null;
+    }
+
+    return null;
+  }
+
   static Future<void> launchWebURL(BuildContext context, String url) async {
     try {
       await launchUrl(
@@ -128,8 +143,7 @@ class _CustomMessageElemState extends State<CustomMessageElem> {
           children: [
             Text(linkMessage.text ?? ""),
             MarkdownBody(
-              data: TIM_t_para("[查看详情 >>]({{option1}})", "[查看详情 >>]($option1)")(
-                  option1: option1),
+              data: TIM_t_para("[查看详情 >>]({{option1}})", "[查看详情 >>]($option1)")(option1: option1),
               styleSheet: MarkdownStyleSheet.fromTheme(ThemeData(
                       textTheme: const TextTheme(
                           // ignore: deprecated_member_use
@@ -176,8 +190,7 @@ class _CustomMessageElemState extends State<CustomMessageElem> {
                       },
                   )
                 ])),
-            if (webLinkMessage.description != null &&
-                webLinkMessage.description!.isNotEmpty)
+            if (webLinkMessage.description != null && webLinkMessage.description!.isNotEmpty)
               Text(
                 webLinkMessage.description!,
                 style: const TextStyle(
@@ -195,12 +208,12 @@ class _CustomMessageElemState extends State<CustomMessageElem> {
         return GroupCallMessageItem(callingMessageDataProvider: callingMessageDataProvider);
       } else {
         // One-to-one Call message
+        bool isFromSelf = callingMessageDataProvider.direction == CallMessageDirection.outcoming;
         return renderMessageItem(
-          CallMessageItem(
-              callingMessageDataProvider: callingMessageDataProvider,
-              padding: const EdgeInsets.all(0)),
+          CallMessageItem(callingMessageDataProvider: callingMessageDataProvider, padding: const EdgeInsets.all(0)),
           theme,
           false,
+          isSelf: isFromSelf
         );
       }
     } else {
@@ -208,8 +221,12 @@ class _CustomMessageElemState extends State<CustomMessageElem> {
     }
   }
 
-  Widget renderMessageItem(Widget child, TUITheme theme, bool isVoteMessage) {
-    final isFromSelf = widget.message.isSelf ?? true;
+  Widget renderMessageItem(Widget child, TUITheme theme, bool isVoteMessage, {bool? isSelf}) {
+    bool isFromSelf = widget.message.isSelf ?? true;
+    if (isSelf != null) {
+      isFromSelf = isSelf;
+    }
+
     final borderRadius = isFromSelf
         ? const BorderRadius.only(
             topLeft: Radius.circular(10),
@@ -222,27 +239,18 @@ class _CustomMessageElemState extends State<CustomMessageElem> {
             bottomLeft: Radius.circular(10),
             bottomRight: Radius.circular(10));
 
-    final defaultStyle = isFromSelf
-        ? theme.lightPrimaryMaterialColor.shade50
-        : theme.weakBackgroundColor;
-    final backgroundColor =
-        isShowJumpState ? const Color.fromRGBO(245, 166, 35, 1) : defaultStyle;
+    final defaultStyle = isFromSelf ? theme.lightPrimaryMaterialColor.shade50 : theme.weakBackgroundColor;
+    final backgroundColor = isShowJumpState ? const Color.fromRGBO(245, 166, 35, 1) : defaultStyle;
 
     return Container(
-        padding: isVoteMessage
-            ? null
-            : (widget.textPadding ?? const EdgeInsets.all(10)),
+        padding: isVoteMessage ? null : (widget.textPadding ?? const EdgeInsets.all(10)),
         decoration: isVoteMessage
-            ? BoxDecoration(
-                border: Border.all(
-                    width: 1, color: theme.weakDividerColor ?? Colors.grey))
+            ? BoxDecoration(border: Border.all(width: 1, color: theme.weakDividerColor ?? Colors.grey))
             : BoxDecoration(
                 color: widget.messageBackgroundColor ?? backgroundColor,
                 borderRadius: widget.messageBorderRadius ?? borderRadius,
               ),
-        constraints: BoxConstraints(
-            maxWidth:
-                isVoteMessage ? 298 : 240), // vote message width need more
+        constraints: BoxConstraints(maxWidth: isVoteMessage ? 298 : 240), // vote message width need more
         child: child);
   }
 

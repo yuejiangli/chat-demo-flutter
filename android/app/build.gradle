@@ -41,7 +41,7 @@ android {
 
     defaultConfig {
         applicationId "com.tencent.qcloud.tim.tuikit"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 33
         versionCode flutter.versionCode
         versionName flutter.versionName

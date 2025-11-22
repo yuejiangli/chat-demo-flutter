@@ -13,7 +13,7 @@ Future<Response<Map<String, dynamic>>> appRequest({
   BaseOptions options = BaseOptions(
     baseUrl: baseUrl ?? IMDemoConfig.smsLoginHttpBase,
     method: method,
-    sendTimeout: 6000,
+    sendTimeout: const Duration(milliseconds: 6000),
     queryParameters: params,
   );
   try {

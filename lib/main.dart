@@ -3,7 +3,7 @@
 import 'dart:io' show Platform;
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:desktop_webview_window_for_is/desktop_webview_window_for_is.dart';
+import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

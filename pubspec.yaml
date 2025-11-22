@@ -45,11 +45,11 @@ dependencies:
   webview_flutter: ^4.4.2
   webview_flutter_android: ^3.12.1
   flutter_easyloading: ^3.0.3
-  desktop_webview_window_for_is: ^0.2.4
+  desktop_webview_window: ^0.2.3
   bitsdojo_window: ^0.1.5
   flutter_screenutil: ^5.9.0
   fluttertoast: ^8.2.1
-  dio: ^4.0.0
+  dio: ^5.9.0
 
 dependency_overrides:
   # Flutter 3.32.4 requires the use of intl: ^0.20.2 version, which is also available in Flutter 3.29.x version

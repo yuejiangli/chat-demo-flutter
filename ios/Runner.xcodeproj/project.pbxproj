@@ -583,7 +583,7 @@
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = i386;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "腾讯云 IM";

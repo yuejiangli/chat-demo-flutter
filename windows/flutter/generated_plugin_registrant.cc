@@ -8,7 +8,7 @@
 
 #include <bitsdojo_window_windows/bitsdojo_window_plugin.h>
 #include <desktop_drop/desktop_drop_plugin.h>
-#include <desktop_webview_window_for_is/desktop_webview_window_for_is_plugin.h>
+#include <desktop_webview_window/desktop_webview_window_plugin.h>
 #include <fc_native_video_thumbnail/fc_native_video_thumbnail_plugin_c_api.h>
 #include <file_selector_windows/file_selector_windows.h>
 #include <pasteboard/pasteboard_plugin.h>
@@ -21,8 +21,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("BitsdojoWindowPlugin"));
   DesktopDropPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("DesktopDropPlugin"));
-  DesktopWebviewWindowForIsPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("DesktopWebviewWindowForIsPlugin"));
+  DesktopWebviewWindowPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("DesktopWebviewWindowPlugin"));
   FcNativeVideoThumbnailPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FcNativeVideoThumbnailPluginCApi"));
   FileSelectorWindowsRegisterWithRegistrar(
